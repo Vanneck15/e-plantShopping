@@ -7,58 +7,45 @@ const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
 
-  // Tâche 3 : Calculer le coût de tous les articles dans le panier
+  // Calcule le coût global de tous les articles
   const calculateTotalAmount = () => {
-    let total = 0; // Initialise la variable totale
-
-    cart.forEach(item => { // Itère sur le tableau avec forEach
-      const quantity = item.quantity; // Extrait la quantité
-      
-      // Convertit la chaîne cost (ex: "$15") en nombre et la multiplie par la quantité
+    let total = 0;
+    cart.forEach(item => {
+      const quantity = item.quantity;
       const costNumber = parseFloat(item.cost.substring(1));
-      const itemTotal = costNumber * quantity;
-
-      total += itemTotal; // Ajoute la valeur au total cumulatif
+      total += costNumber * quantity;
     });
-
-    return total; // Retourne le montant final calculé
+    return total;
   };
 
-  // Tâche 3 : Continuer à magasiner
   const handleContinueShopping = (e) => {
-    if (e) {
-      e.preventDefault(); 
-    }
-    onContinueShopping(e); // Appelle la fonction passée par le composant parent
+    if (e) e.preventDefault();
+    onContinueShopping(e);
   };
 
-  // Tâche 3 : Incrémenter le nombre d'une plante
   const handleIncrement = (item) => {
     dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
 
-  // Tâche 3 : Décrémenter le nombre d'une plante
   const handleDecrement = (item) => {
     if (item.quantity > 1) {
       dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
     } else {
-      // Si la quantité tombe à 0, on supprime l'article du panier
       dispatch(removeItem(item.name));
     }
   };
 
-  // Tâche 3 : Supprimer une plante du panier complètement
+  // Gestionnaire d'événement pour retirer complètement une plante
   const handleRemove = (item) => {
     dispatch(removeItem(item.name));
   };
 
-  // Tâche 3 : Calculer le sous-total pour chaque type de plante
+  // Calcule le sous-total d'une plante (Quantité * Prix unitaire)
   const calculateTotalCost = (item) => {
     const costNumber = parseFloat(item.cost.substring(1));
     return costNumber * item.quantity;
   };
 
-  // Tâche 3 : Passer à la caisse (Optionnel)
   const handleCheckoutShopping = (e) => {
     e.preventDefault();
     alert('Functionality to be added for future reference');
