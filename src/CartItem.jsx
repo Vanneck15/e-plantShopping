@@ -7,7 +7,6 @@ const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
 
-  // Calcule le coût de tous les articles dans le panier
   const calculateTotalAmount = () => {
     let total = 0;
     cart.forEach(item => {
@@ -19,33 +18,26 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   const handleContinueShopping = (e) => {
-    if (e) {
-      e.preventDefault(); 
-    }
-    onContinueShopping(e);
+    if (e) e.preventDefault();
+    onContinueShopping();
   };
 
-  // Tâche 4 : Utilise l'action updateQuantity pour augmenter le nombre d'articles
   const handleIncrement = (item) => {
     dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
 
-  // Tâche 4 : Utilise l'action updateQuantity ou removeItem selon la quantité
   const handleDecrement = (item) => {
     if (item.quantity > 1) {
       dispatch(updateQuantity({ name: item.name, quantity: item.quantity - 1 }));
     } else {
-      // Tâche 4 : dispatch(removeItem(item.name)) pour supprimer complètement si la quantité tombe à 0
       dispatch(removeItem(item.name));
     }
   };
 
-  // Tâche 4 : Utilise l'action removeItem pour supprimer complètement un article du panier
   const handleRemove = (item) => {
-    dispatch(removeItem(item.name));
+    dispatch(dispatch(removeItem(item.name)));
   };
 
-  // Calcule le sous-total pour chaque type de plante
   const calculateTotalCost = (item) => {
     const costNumber = parseFloat(item.cost.substring(1));
     return costNumber * item.quantity;
