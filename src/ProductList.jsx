@@ -58,19 +58,14 @@ function ProductList({ onHomeClick }) {
         return CartItems ? CartItems.reduce((total, item) => total + item.quantity, 0) : 0; 
     };
 
-    const handleHomeClick = (e) => {
-        e.preventDefault();
-        onHomeClick();
-    };
-
     const handleCartClick = (e) => {
         e.preventDefault();
         setShowCart(true);
     };
 
-    const handleContinueShopping = (e) => {
-        if (e) e.preventDefault();
-        setShowCart(false);
+    const handlePlantsClick = (e) => {
+        e.preventDefault();
+        setShowCart(false); // Forcer l'affichage des plantes en désactivant le panier
     };
 
     const handleAddToCart = (product) => {
@@ -87,7 +82,7 @@ function ProductList({ onHomeClick }) {
                 <div className="tag">
                     <div className="luxury">
                         <img src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png" alt="" style={{ width: '40px' }} />
-                        <a href="/" onClick={(e) => handleHomeClick(e)} style={{ color: 'white', textDecoration: 'none' }}>
+                        <a href="#" onClick={(e) => { e.preventDefault(); onHomeClick(); }} style={{ color: 'white', textDecoration: 'none' }}>
                             <div>
                                 <h3 style={{ color: 'white', margin: 0 }}>Paradise Nursery</h3>
                                 <i style={{ color: 'white', fontSize: '12px' }}>Where Green Meets Serenity</i>
@@ -97,12 +92,12 @@ function ProductList({ onHomeClick }) {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '300px' }}>
                     <div>
-                        <a href="#" onClick={(e) => handleContinueShopping(e)} style={{ color: 'white', fontSize: '22px', textDecoration: 'none' }}>
+                        <a href="#" onClick={handlePlantsClick} style={{ color: 'white', fontSize: '22px', textDecoration: 'none' }}>
                             Plants
                         </a>
                     </div>
                     <div>
-                        <a href="#" onClick={(e) => handleCartClick(e)} style={{ color: 'white', textDecoration: 'none' }}>
+                        <a href="#" onClick={handleCartClick} style={{ color: 'white', textDecoration: 'none' }}>
                             <h1 className='cart' style={{ margin: 0, position: 'relative', display: 'inline-block' }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" height="45" width="45">
                                     <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" strokeLinecap="round" strokeLinejoin="round" strokeWidth="10"></path>
@@ -150,7 +145,7 @@ function ProductList({ onHomeClick }) {
                     ))}
                 </div>
             ) : (
-                <CartItem onContinueShopping={handleContinueShopping} />
+                <CartItem onContinueShopping={() => setShowCart(false)} />
             )}
         </div>
     );
