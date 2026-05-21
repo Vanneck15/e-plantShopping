@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'; // Ajout de useSelector
+import { useDispatch, useSelector } from 'react-redux'; // Hook useSelector pour accéder au store
 import { addItem } from './CartSlice';
 import './ProductList.css';
 import CartItem from './CartItem';
@@ -11,9 +11,13 @@ function ProductList({ onHomeClick }) {
     
     const dispatch = useDispatch();
     
-    // Récupère les articles pour calculer le nombre total affiché sur l'icône du panier
-    const cartItems = useSelector(state => state.cart.items);
-    const totalCartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+    // Tâche 4 : Récupérer les articles du panier depuis le store Redux
+    const CartItems = useSelector(state => state.cart.items);
+
+    // Tâche 4 : Calculer la quantité totale d'articles actuellement dans le panier
+    const calculateTotalQuantity = () => { 
+        return CartItems ? CartItems.reduce((total, item) => total + item.quantity, 0) : 0; 
+    };
 
     const plantsArray = [
         {
@@ -142,8 +146,9 @@ function ProductList({ onHomeClick }) {
         setShowCart(false);
     };
 
+    // Tâche 4 : Utiliser l'action addItem pour envoyer le produit sélectionné au panier
     const handleAddToCart = (product) => {
-        dispatch(addItem(product));
+        dispatch(addItem(product)); 
         setAddedToCart((prevState) => ({
             ...prevState,
             [product.name]: true,
@@ -176,7 +181,7 @@ function ProductList({ onHomeClick }) {
                                         <circle cx="184" cy="216" r="12"></circle>
                                         <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
                                     </svg>
-                                    {/* Compteur dynamique d'éléments dans le panier */}
+                                    {/* Tâche 4 : Affichage de la quantité totale calculée */}
                                     <span style={{
                                         position: 'absolute',
                                         top: '10px',
@@ -187,7 +192,7 @@ function ProductList({ onHomeClick }) {
                                         padding: '2px 8px',
                                         fontSize: '16px'
                                     }}>
-                                        {totalCartItemsCount}
+                                        {calculateTotalQuantity()}
                                     </span>
                                 </div>
                             </h1>
