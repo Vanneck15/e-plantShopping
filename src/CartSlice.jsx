@@ -20,14 +20,14 @@ export const CartSlice = createSlice({
       }
     },
     removeItem: (state, action) => {
-      // Logique pour supprimer un article (Sera complétée dans les tâches suivantes)
+      // Supprime l'article en filtrant le tableau par le nom reçu dans action.payload
       state.items = state.items.filter(item => item.name !== action.payload);
     },
     updateQuantity: (state, action) => {
-      // Logique pour mettre à jour la quantité (Sera complétée dans les tâches suivantes)
       const { name, quantity } = action.payload;
       const itemToUpdate = state.items.find(item => item.name === name);
       if (itemToUpdate) {
+        // Met à jour la quantité avec la nouvelle valeur reçue
         itemToUpdate.quantity = quantity;
       }
     },
